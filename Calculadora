@@ -1,0 +1,106 @@
+import math
+
+while True:
+    print('[1] función suma')
+    print('[2] función resta')
+    print('[3] función multiplicar')
+    print('[4] función dividir')
+    print('[5] función sen')
+    print('[6] función cos')
+    print('[7] función tan')
+    print('[8] función raiz')
+    print('[9] función potencia')
+    print('[10] función factorial')
+    print('[11] función mínimo común múltiplo de 2 números')
+    print('[12] función máximo común divisor de 2 números')
+    print('[13] Calcular el porcentaje de IVA ')
+
+    x = int(input('Seleccione la operación deseada: '))
+
+    match x:
+        case 1:
+            a = int(input('Digite el primer número: '))
+            b = int(input('Digite el segundo número: '))
+            suma = a + b
+            print('El resultado de la suma es: ', suma)
+        
+        case 2:
+            a = int(input('Digite el primer número: '))
+            b = int(input('Digite el segundo número: '))
+            resta = a - b
+            print('El resultado de la resta es: ', resta)
+        
+        case 3:
+            a = int(input('Digite el primer número: '))
+            b = int(input('Digite el segundo número: '))
+            multiplicar = a * b
+            print('El resultado de la multiplicación es: ', multiplicar)
+
+        case 4:
+            a = int(input('Digite el dividendo: '))
+            b = int(input('Digite el divisor: '))
+            if b == 0:
+                print('Error: No se puede dividir por cero')
+            else:
+                dividir = a / b
+                print('El resultado de la división es: ', dividir)
+
+        case 5:
+            angulo = float(input('Digite el ángulo en grados: '))
+            print('El seno del angulo es: ',math.sen())
+
+        case 6:
+            angulo = float(input('Digite el ángulo en grados: '))
+            print('El coseno del angulo es: ',math.cos())
+
+        case 7:
+            angulo = float(input('Digite el ángulo en grados: '))
+            print('La tangente del angulo es: ',math.tan())
+
+        case 8:
+            numero = float(input('Digite el número: '))
+            indice = int(input('Digite el índice de la raíz: '))
+            print('el resultado es: ',numero**(1/indice))
+
+        case 9:
+            base = int(input('Digite la base: '))
+            exponente = int(input('Digite el exponente: '))
+            potencia = base ** exponente
+            print('El resultado de la potencia enésima es: ', potencia)
+
+        case 10:
+            a = int(input('Digite el número: '))
+            factorial = math.factorial(a)
+            print('El resultado del factorial es: ', factorial)
+
+        case 11:
+            a = int(input('Digite el primer número entero: '))
+            b = int(input('Digite el segundo número entero: '))
+            def mcd(a, b):
+                while b != 0:
+                    a, b = b, a % b
+                return a
+            mcm = (a * b) // mcd(a, b) if a != 0 and b != 0 else 0
+            print('El mínimo común múltiplo es: ', mcm)
+        
+            
+        case 12:
+            a = int(input('Digite el primer número entero: '))
+            b = int(input('Digite el segundo número entero: '))
+            def mcd(a, b):
+                while b != 0:
+                    a, b = b, a % b
+                return a
+            max_comun_div = mcd(a, b)
+            print('El máximo común divisor es: ', max_comun_div)
+        
+
+
+        case 13:
+            valor = float(input('Digite el valor base: '))
+            porcentaje = float(input('Digite el porcentaje de IVA: '))
+            iva = valor * (porcentaje / 100)
+            print('El porcentaje de IVA es: ', iva)
+        
+        case _:
+            print('Error: Opción no válida')
