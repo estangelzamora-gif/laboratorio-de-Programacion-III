@@ -1,106 +1,170 @@
 import math
 
-while True:
-    print('[1] función suma')
-    print('[2] función resta')
-    print('[3] función multiplicar')
-    print('[4] función dividir')
-    print('[5] función sen')
-    print('[6] función cos')
-    print('[7] función tan')
-    print('[8] función raiz')
-    print('[9] función potencia')
-    print('[10] función factorial')
-    print('[11] función mínimo común múltiplo de 2 números')
-    print('[12] función máximo común divisor de 2 números')
-    print('[13] Calcular el porcentaje de IVA ')
+class Calculadora:
+    def __init__(self):
+        self.resultado = None 
 
-    x = int(input('Seleccione la operación deseada: '))
+    def obtener_resultado_inicial(self):
+        if self.resultado is None:
+            self.resultado = float(input("Digite el número inicial: "))
 
-    match x:
-        case 1:
-            a = int(input('Digite el primer número: '))
-            b = int(input('Digite el segundo número: '))
-            suma = a + b
-            print('El resultado de la suma es: ', suma)
+    def suma(self, a, b): 
+        return a + b
+    
+    def resta(self, a, b): 
+        return a - b
+    
+    def multiplicacion(self, a, b):
+        return a * b
+    
+    def division(self, a, b): 
+        if b == 0:
+            print("Error: No se puede dividir por cero")
+            return a  # Devolvemos 'a' (el valor original) para no dañar el acumulado
         
-        case 2:
-            a = int(input('Digite el primer número: '))
-            b = int(input('Digite el segundo número: '))
-            resta = a - b
-            print('El resultado de la resta es: ', resta)
-        
-        case 3:
-            a = int(input('Digite el primer número: '))
-            b = int(input('Digite el segundo número: '))
-            multiplicar = a * b
-            print('El resultado de la multiplicación es: ', multiplicar)
+        return a / b
+       
+    def seno(self, angulo): 
+        return math.sin(math.radians(angulo))
 
-        case 4:
-            a = int(input('Digite el dividendo: '))
-            b = int(input('Digite el divisor: '))
-            if b == 0:
-                print('Error: No se puede dividir por cero')
-            else:
-                dividir = a / b
-                print('El resultado de la división es: ', dividir)
+    def coseno(self, angulo): 
+        return math.cos(math.radians(angulo))
+    
+    def tangente(self, angulo): 
+        return math.tan(math.radians(angulo))
+    
+    def raiz(self, numero, indice):
+        if indice == 0: 
+            print("Error: Índice 0")
+            return a
+        if numero < 0 and indice % 2 == 0: 
+            print ("Error: raíz par de negativo")
+            return a
+        return numero ** (1 / indice)
+    
+    def potencia(self, base, exponente): 
+        return base ** exponente
+    
+    def factorial(self, n):
+        if n < 0: return "Error: factorial negativo"
+        if n in (0,1): return 1
+        return n * self.factorial(n-1)
+    
+    def mcd(self, a, b):
+        while b: a, b = b, a % b
+        return a
+    
+    def mcm(self, a, b): 
+        return 0 if ab==0 else (ab)//self.mcd(a,b)
+    
+    def iva(self, valor, porcentaje): 
+        return valor * (porcentaje/100)
+    
+    def fibonacci(self, n):
+        if n < 0: return "Error: Fibonacci negativo"
+        if n <= 1: return n
+        return self.fibonacci(n-1)+self.fibonacci(n-2)
 
-        case 5:
-            angulo = float(input('Digite el ángulo en grados: '))
-            print('El seno del angulo es: ',math.sen())
+    def menu(self):
+        while True:
+            print('\n===== CALCULADORA =====')
+            print("Resultado actual:", self.resultado)
+            print('[1] Sumar')
+            print('[2] Restar')
+            print('[3] Multiplicar')
+            print('[4] Dividir')
+            print('[5] Seno')
+            print('[6] Coseno')
+            print('[7] Tangente')
+            print('[8] Raíz')
+            print('[9] Potencia')
+            print('[10] Factorial')
+            print('[11] MCM')
+            print('[12] MCD')
+            print('[13] IVA')
+            print('[14] Fibonacci')
+            print('[15] Borrar Dato Guardado')            
+            print('[0] Salir')
 
-        case 6:
-            angulo = float(input('Digite el ángulo en grados: '))
-            print('El coseno del angulo es: ',math.cos())
+            opcion = int(input('Seleccione la operación: '))
 
-        case 7:
-            angulo = float(input('Digite el ángulo en grados: '))
-            print('La tangente del angulo es: ',math.tan())
+            match opcion:
+                case 0:
+                    print("Saliendo...")
+                    break
 
-        case 8:
-            numero = float(input('Digite el número: '))
-            indice = int(input('Digite el índice de la raíz: '))
-            print('el resultado es: ',numero**(1/indice))
+                case 1:
+                    self.obtener_resultado_inicial()
+                    n = float(input('Número a sumar: '))
+                    self.resultado = self.suma(self.resultado, n)
 
-        case 9:
-            base = int(input('Digite la base: '))
-            exponente = int(input('Digite el exponente: '))
-            potencia = base ** exponente
-            print('El resultado de la potencia enésima es: ', potencia)
+                case 2:
+                    self.obtener_resultado_inicial()
+                    n = float(input('Número a restar: '))
+                    self.resultado = self.resta(self.resultado, n)
 
-        case 10:
-            a = int(input('Digite el número: '))
-            factorial = math.factorial(a)
-            print('El resultado del factorial es: ', factorial)
+                case 3:
+                    self.obtener_resultado_inicial()
+                    n = float(input('Número a multiplicar: '))
+                    self.resultado = self.multiplicacion(self.resultado, n)
 
-        case 11:
-            a = int(input('Digite el primer número entero: '))
-            b = int(input('Digite el segundo número entero: '))
-            def mcd(a, b):
-                while b != 0:
-                    a, b = b, a % b
-                return a
-            mcm = (a * b) // mcd(a, b) if a != 0 and b != 0 else 0
-            print('El mínimo común múltiplo es: ', mcm)
-        
-            
-        case 12:
-            a = int(input('Digite el primer número entero: '))
-            b = int(input('Digite el segundo número entero: '))
-            def mcd(a, b):
-                while b != 0:
-                    a, b = b, a % b
-                return a
-            max_comun_div = mcd(a, b)
-            print('El máximo común divisor es: ', max_comun_div)
-        
+                case 4:
+                    self.obtener_resultado_inicial()
+                    n = float(input('Divisor: '))
+                    self.resultado = self.division(self.resultado, n)
 
+                case 5:
+                    self.obtener_resultado_inicial()
+                    self.resultado = self.seno(self.resultado)
 
-        case 13:
-            valor = float(input('Digite el valor base: '))
-            porcentaje = float(input('Digite el porcentaje de IVA: '))
-            iva = valor * (porcentaje / 100)
-            print('El porcentaje de IVA es: ', iva)
-        
-        case _:
-            print('Error: Opción no válida')
+                case 6:
+                    self.obtener_resultado_inicial()
+                    self.resultado = self.coseno(self.resultado)
+
+                case 7:
+                    self.obtener_resultado_inicial()
+                    self.resultado = self.tangente(self.resultado)
+
+                case 8:
+                    self.obtener_resultado_inicial()
+                    indice = int(input('Índice de la raíz: '))
+                    self.resultado = self.raiz(self.resultado, indice)
+
+                case 9:
+                    self.obtener_resultado_inicial()
+                    exp = float(input('Exponente: '))
+                    self.resultado = self.potencia(self.resultado, exp)
+
+                case 10:
+                    self.obtener_resultado_inicial()
+                    self.resultado = self.factorial(int(self.resultado))
+                case 11:
+                    self.obtener_resultado_inicial()
+                    n = int(input('Otro número para MCM: '))
+                    self.resultado = self.mcm(int(self.resultado), n)
+
+                case 12:
+                    self.obtener_resultado_inicial()
+                    n = int(input('Otro número para MCD: '))
+                    self.resultado = self.mcd(int(self.resultado), n)
+
+                case 13:
+                    self.obtener_resultado_inicial()
+                    porcentaje = float(input('Porcentaje de IVA: '))
+                    self.resultado = self.iva(self.resultado, porcentaje)
+
+                case 14:
+                    self.obtener_resultado_inicial()
+                    self.resultado = self.fibonacci(int(self.resultado))
+
+                case 15:
+                    self.obtener_resultado_inicial()
+                    self.resultado = None                     
+                    
+                case _:
+                    print("Opción no válida")
+
+            print("Nuevo resultado:", self.resultado)
+
+calc = Calculadora()
+calc.menu()
