@@ -1,10 +1,8 @@
 import random
 
-class Laboratorio2:
 
-    # -------------------------
-    # LEER MATRIZ
-    # -------------------------
+class Matrices:
+
     def leer_matriz(self):
 
         filas = int(input("Filas: "))
@@ -26,10 +24,7 @@ class Laboratorio2:
         return matriz, filas, columnas
 
 
-    # -------------------------
-    # SUMA MATRICES
-    # -------------------------
-    def suma_matrices(self):
+    def suma(self):
 
         print("Matriz A")
         A,f1,c1 = self.leer_matriz()
@@ -54,15 +49,11 @@ class Laboratorio2:
             C.append(fila)
 
         print("Resultado")
-
         for fila in C:
             print(fila)
 
 
-    # -------------------------
-    # PRODUCTO MATRICES
-    # -------------------------
-    def producto_matrices(self):
+    def producto(self):
 
         print("Matriz A")
         A,f1,c1 = self.leer_matriz()
@@ -93,14 +84,10 @@ class Laboratorio2:
             C.append(fila)
 
         print("Resultado")
-
         for fila in C:
             print(fila)
 
 
-    # -------------------------
-    # MATRIZ POR VECTOR
-    # -------------------------
     def matriz_vector(self):
 
         A,f,c = self.leer_matriz()
@@ -127,9 +114,6 @@ class Laboratorio2:
         print("Resultado:",resultado)
 
 
-    # -------------------------
-    # INVERSA 2x2
-    # -------------------------
     def inversa(self):
 
         A,f,c = self.leer_matriz()
@@ -150,14 +134,46 @@ class Laboratorio2:
         ]
 
         print("Inversa")
-
         for fila in inv:
             print(fila)
 
 
-    # =========================
-    # ORDENAMIENTOS
-    # =========================
+    def menu(self):
+
+        while True:
+
+            print("\nOPERACIONES MATRICES")
+            print("1 Sumar matrices")
+            print("2 Producto matrices")
+            print("3 Inversa")
+            print("4 Matriz por vector")
+            print("5 Volver")
+
+            op = input("Opcion: ")
+
+            match op:
+
+                case "1":
+                    self.suma()
+
+                case "2":
+                    self.producto()
+
+                case "3":
+                    self.inversa()
+
+                case "4":
+                    self.matriz_vector()
+
+                case "5":
+                    break
+
+                case _:
+                    print("Opcion invalida")
+
+
+
+class Ordenamientos:
 
     def burbuja(self,lista):
 
@@ -251,99 +267,58 @@ class Laboratorio2:
         return lista
 
 
-    # =========================
-    # MENU MATRICES
-    # =========================
-
-    def menu_matrices(self):
-
-        while True:
-
-            print("\nOPERACIONES MATRICES")
-            print("1 Sumar matrices")
-            print("2 Producto matrices")
-            print("3 Inversa")
-            print("4 Matriz por vector")
-            print("5 Volver")
-
-            op=input("Opcion: ")
-
-            match op:
-
-                case "1":
-                    self.suma_matrices()
-
-                case "2":
-                    self.producto_matrices()
-
-                case "3":
-                    self.inversa()
-
-                case "4":
-                    self.matriz_vector()
-
-                case "5":
-                    break
-
-                case _:
-                    print("Opcion invalida")
-
-
-    # =========================
-    # MENU ORDENAMIENTO
-    # =========================
-
-    def menu_ordenamiento(self):
+    def menu(self):
 
         n=int(input("Cantidad de numeros: "))
 
-        lista=[random.uniform(0,100) for i in range(n)]
+        lista=[]
 
-        print("Lista original:",lista)
+        for i in range(n):
+            lista.append(random.uniform(0,100))
+
+        print("\nLista original:",lista)
+
+        print("\nResultados")
 
         print("Burbuja:",self.burbuja(lista.copy()))
         print("Insercion:",self.insercion(lista.copy()))
         print("Seleccion:",self.seleccion(lista.copy()))
         print("MergeSort:",self.mergesort(lista.copy()))
 
-        lista2=lista.copy()
-        lista2.sort()
+        python_sort = lista.copy()
+        python_sort.sort()
 
-        print("Sort Python:",lista2)
-
-
-    # =========================
-    # MENU PRINCIPAL
-    # =========================
-
-    def menu(self):
-
-        while True:
-
-            print("\nLABORATORIO 2")
-            print("1 Operaciones con matrices")
-            print("2 Ordenamientos")
-            print("3 Salir")
-
-            op=input("Seleccione: ")
-
-            match op:
-
-                case "1":
-                    self.menu_matrices()
-
-                case "2":
-                    self.menu_ordenamiento()
-
-                case "3":
-                    print("Programa terminado")
-                    break
-
-                case _:
-                    print("Opcion invalida")
+        print("Sort Python:",python_sort)
 
 
-if __name__ == "__main__":
 
-    app=Laboratorio2()
-    app.menu()
+# -----------------------
+# MENU PRINCIPAL
+# -----------------------
+
+mat = Matrices()
+ord = Ordenamientos()
+
+while True:
+
+    print("\nLABORATORIO 2")
+    print("1 Operaciones con matrices")
+    print("2 Ordenamientos")
+    print("3 Salir")
+
+    op = input("Seleccione: ")
+
+    match op:
+
+        case "1":
+            mat.menu()
+
+        case "2":
+            ord.menu()
+
+        case "3":
+            print("Programa terminado")
+            break
+
+        case _:
+            print("Opcion invalida")
