@@ -1,0 +1,54 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+
+class "main.py" as Main << (M, #FFFFFF) >> {
+}
+
+class "threading.Thread" as Thread {
+    + start()
+    + join()
+    + run()
+}
+
+class CarreraMecatronica {
+    - root : tk.Tk
+    - nombres : list
+    - colores : list
+    - vehiculos : list[Vehiculo]
+    - en_carrera : bool
+    - combo_apuesta : tk.StringVar
+    - var_vueltas : tk.IntVar
+    - slider_vel : tk.Scale
+    - btn_go : tk.Button
+    - pista : tk.Frame
+    + __init__(root: tk.Tk)
+    + configurar_interfaz()
+    + preparar_pista()
+    + comenzar()
+    + esperar_finalizacion()
+    + mostrar_resultados()
+}
+
+class Vehiculo {
+    - daemon : bool
+    - id : int
+    - nombre : str
+    - color : str
+    - widget : tk.Label
+    - carrera : CarreraMecatronica
+    - x : float
+    - direccion : int
+    - vueltas_completadas : float
+    - tiempo_inicio : float
+    - tiempo_fin : float
+    + __init__(id_vehiculo: int, nombre: str, color: str, widget_label: tk.Label, carrera: CarreraMecatronica)
+    + run()
+}
+
+' Relaciones
+Thread <|-- Vehiculo : Hereda de
+CarreraMecatronica "1" *-- "1..10" Vehiculo : Compone
+Vehiculo --> CarreraMecatronica : Referencia directa (Acoplamiento)
+Main ..> CarreraMecatronica : Instancia
+@enduml
