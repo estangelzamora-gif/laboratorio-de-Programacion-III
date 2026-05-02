@@ -1,0 +1,60 @@
+import threading
+import random
+import time
+
+# Cada vehiculo es un hilo independiente (hereda de threading.Thread)
+# El hilo se CREA cuando se instancia Vehiculo() en interfaz.py
+# El hilo INICIA con .start() en CarreraMecatronica.comenzar()
+# El hilo TERMINA cuando run() llega al final (vueltas completadas o carrera detenida)
+
+class Vehiculo(threading.Thread):
+    def __init__(self, id_vehiculo, nombre, color, widget_label, carrera):
+        super().__init__()
+        self.daemon = True  # si se cierra la ventana los hilos mueren solos
+        
+        self.id = id_vehiculo
+        self.nombre = nombre
+        self.color = color
+        self.widget = widget_label
+        self.carrera = carrera
+        
+        self.x = 0.0
+        self.direccion = 1
+        self.vueltas_completadas = 0
+        self.tiempo_inicio = 0.0
+        self.tiempo_fin = 0.0
+
+    # run() es el metodo que ejecuta el hilo cuando se llama .start()
+    def run(self):
+        self.tiempo_inicio = time.time()
+        limite = 780
+        rondas = self.carrera.var_vueltas.get()
+
+        while self.vueltas_completadas < rondas and self.carrera.en_carrera:
+            paso = random.uniform(1.0, 3.5) * self.direccion
+            self.x += paso
+
+            if self.x >= limite and self.direccion == 1:
+                self.direccion = -1
+                self.vueltas_completadas += 0.5
+            elif self.x <= 0 and self.direccion == -1:
+                self.direccion = 1
+                self.vueltas_completadas += 0.5
+                self.x = 0
+
+            # tkinter no es thread-safe: NO se puede modificar widgets directamente
+            # desde un hilo secundario. Se usa root.after(0, ...) para
+            # encolar la actualizacion visual en el hilo principal de tkinter
+            x_actual = int(self.x)
+            y_actual = self.id * 60 + 60
+            try:
+                self.carrera.root.after(0, lambda x=x_actual, y=y_actual: 
+                                        self.widget.place(x=x, y=y))
+            except Exception:
+                break
+
+            pausa = (110 - self.carrera.slider_vel.get()) / 4000.0
+            time.sleep(pausa)
+
+        # El hilo termina aqui, cuando sale del while
+        self.tiempo_fin = time.time()
