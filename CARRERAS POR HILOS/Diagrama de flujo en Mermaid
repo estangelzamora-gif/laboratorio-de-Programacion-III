@@ -1,0 +1,46 @@
+flowchart TD
+    %% Estilos
+    classDef principal fill:#2c3e50,stroke:#34495e,stroke-width:2px,color:#fff
+    classDef hilosSec fill:#8e44ad,stroke:#9b59b6,stroke-width:2px,color:#fff
+    classDef hiloControl fill:#2980b9,stroke:#3498db,stroke-width:2px,color:#fff
+    
+    A([Inicio de Aplicación]) --> B[Configurar Interfaz Tkinter]
+    B --> C[Usuario presiona INICIAR]
+    C --> D{¿Carrera en curso?}
+    
+    D -- Sí --> E([Ignorar acción])
+    D -- No --> F[preparar_pista: Destruir y recrear vehículos]
+    
+    F --> G[Lanzar hilo_control daemon]
+    F --> H[Lanzar 10 Hilos de Vehículos]
+
+    %% Hilo de Control
+    subgraph Control [Hilo de Control: esperar_finalizacion]
+        direction TB
+        G --> I[Ejecutar join para cada vehículo]
+        I --> J[Bloquear hasta que todos los hilos terminen]
+        J --> K[Encolar mostrar_resultados en Main Thread]
+    end
+    
+    %% Hilos de Vehículos
+    subgraph Vehiculos [10 Hilos concurrentes: Vehiculo.run]
+        direction TB
+        H --> L[Registrar tiempo_inicio]
+        L --> M{¿vueltas < rondas AND en_carrera?}
+        M -- Sí --> N[Calcular paso aleatorio y sumar a X]
+        N --> O{¿Alcanzó límite de pista?}
+        O -- Sí --> P[Invertir dirección y sumar 0.5 vueltas]
+        O -- No --> Q
+        P --> Q[Encolar actualización UI via root.after]
+        Q --> R[Dormir hilo / time.sleep]
+        R --> M
+        M -- No --> S[Registrar tiempo_fin]
+    end
+
+    %% Retorno al hilo principal
+    K -.-> T[Mostrar MessageBox con Resultados y Apuesta]
+    S -.-> J
+
+    class A,B,C,D,E,F,T principal;
+    class H,L,M,N,O,P,Q,R,S hilosSec;
+    class G,I,J,K hiloControl;
